@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ITunesTrackSearch</string>
+    <string name="title_tracks">Tracks</string>
+    <string name="title_favorite">Favorite</string>
+</resources>
