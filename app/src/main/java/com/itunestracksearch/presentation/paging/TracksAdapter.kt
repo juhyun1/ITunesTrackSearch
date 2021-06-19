@@ -14,7 +14,7 @@ import com.itunestracksearch.databinding.ListItemTrackBinding
 import com.itunestracksearch.domain.Song
 import com.itunestracksearch.util.loadImage
 
-class TracksAdapter() : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(diffCallback) {
+class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(diffCallback) {
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bindTo(getItem(position), position)
@@ -66,7 +66,7 @@ class TracksAdapter() : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(d
         val favorite: ImageView = binding.favorite
 
 
-        fun setFavorite(isFavorite: Boolean) {
+        private fun setFavorite(isFavorite: Boolean) {
             if (isFavorite) {
                 favorite.isSelected = true
                 favorite.setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN)
@@ -87,7 +87,10 @@ class TracksAdapter() : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(d
                 }
 
                 favorite.setOnClickListener {
-                    setFavorite(favorite.isSelected)
+                    setFavorite(!favorite.isSelected)
+                    item?.let {
+                        it.isFavorite = !it.isFavorite
+                    }
 
                     if (layoutPosition != RecyclerView.NO_POSITION) {
                         onItemClick(layoutPosition, favorite.isSelected)

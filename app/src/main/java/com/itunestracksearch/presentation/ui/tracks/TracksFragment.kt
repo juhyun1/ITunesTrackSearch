@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.itunestracksearch.databinding.FragmentTracksBinding
 import com.itunestracksearch.db.DaoMapper
 import com.itunestracksearch.domain.Song
+import com.itunestracksearch.presentation.BaseApplication
 import com.itunestracksearch.presentation.paging.TracksAdapter
 import com.itunestracksearch.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,12 +27,13 @@ class TracksFragment: Fragment() {
     @Inject lateinit var tracksAdapter: TracksAdapter
     private val binding get() = _binding!!
     @Inject lateinit var daoMapper: DaoMapper
+    @Inject lateinit var baseApplication: BaseApplication
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTracksBinding.inflate(inflater, container, false)
         val root: View = binding.root
         binding.trackList.adapter = tracksAdapter
@@ -52,12 +54,16 @@ class TracksFragment: Fragment() {
             }
         }
 
-//        binding.trackList.adapter =
+        baseApplication.removeFavoriteSong.observe(viewLifecycleOwner) {
+            val snapshot = tracksAdapter.snapshot()
+            for (song in snapshot.items) {
+                if (song.trackId == it.trackId) {
+                    song.isFavorite = false
+                    break
+                }
+            }
+        }
 
-//        val textView: TextView = binding.textHome
-//        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
         return root
     }
 

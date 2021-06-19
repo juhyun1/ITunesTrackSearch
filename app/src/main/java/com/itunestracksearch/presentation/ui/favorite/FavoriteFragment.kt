@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import com.itunestracksearch.databinding.FragmentFavoriteBinding
 import com.itunestracksearch.db.DaoMapper
 import com.itunestracksearch.domain.Song
+import com.itunestracksearch.presentation.BaseApplication
 import com.itunestracksearch.presentation.paging.TracksAdapter
 import com.itunestracksearch.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,7 @@ class FavoriteFragment : Fragment() {
     @Inject lateinit var tracksAdapter: TracksAdapter
     private val binding get() = _binding!!
     @Inject lateinit var daoMapper: DaoMapper
+    @Inject lateinit var baseApplication: BaseApplication
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +48,7 @@ class FavoriteFragment : Fragment() {
             if (isFavorite) {
                 favoriteViewModel.insertFavoriteSong(favoriteSong)
             } else {
+                baseApplication.removeFavoriteSong.postValue(song)
                 favoriteViewModel.deleteFavoriteSong(favoriteSong)
             }
         }
