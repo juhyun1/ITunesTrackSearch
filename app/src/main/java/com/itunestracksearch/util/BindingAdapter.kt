@@ -18,12 +18,4 @@ fun loadImage(imageView: ImageView, url: String?) {
         .into(imageView)
 }
 
-@BindingAdapter("selected_item")
-fun loadImage(view: View, selected: Boolean) {
-    if (selected) {
-        view.setBackgroundColor(Color.YELLOW)
-    } else {
-        view.setBackgroundColor(Color.WHITE)
-    }
-}
 

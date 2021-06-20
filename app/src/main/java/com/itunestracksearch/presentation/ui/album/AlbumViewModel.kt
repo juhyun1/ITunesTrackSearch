@@ -1,50 +1,34 @@
 package com.itunestracksearch.presentation.ui.album
 
-import android.icu.number.IntegerWidth
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import androidx.paging.map
 import com.google.gson.internal.LinkedTreeMap
-import com.itunestracksearch.db.DaoMapper
-import com.itunestracksearch.db.vo.FavoritesSong
 import com.itunestracksearch.domain.Song
-import com.itunestracksearch.network.model.AlbumDto
-import com.itunestracksearch.network.model.SongDtoMapper
 import com.itunestracksearch.presentation.paging.AlbumDataSource
-import com.itunestracksearch.presentation.paging.SearchTracksDataSource
-import com.itunestracksearch.repository.FavoritesRepository
 import com.itunestracksearch.repository.ITunesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AlbumViewModel @Inject constructor(
-    private val favoritesRepository: FavoritesRepository,
     private val iTunesRepository: ITunesRepository,
-    private val songDtoMapper: SongDtoMapper
 ): ViewModel() {
 
-    private val term: String = "greenday"
-    private val entity: String = "song"
     private var limit = 100
-
     val artwork = MutableLiveData("")
     val collectionName = MutableLiveData("")
     val artistName = MutableLiveData("")
     val primaryGenreName = MutableLiveData("")
+
+    // album의 트랙들이 모두 만들어지면 albumAdapter에 데이터를 입력한다.
     val albumReady = MutableLiveData(false)
     private val trackList = mutableListOf<Song>()
-    val albumTracksList = Pager(PagingConfig(pageSize = 100)) {
+    val albumTracksList = Pager(PagingConfig(pageSize = limit)) {
         AlbumDataSource(trackList)
     }.flow.cachedIn(viewModelScope)
 
@@ -63,6 +47,7 @@ class AlbumViewModel @Inject constructor(
                         collectionName.value = item["collectionName"] as String
                         artistName.value = item["artistName"] as String
                         primaryGenreName.value = item["primaryGenreName"] as String
+
                     } else if (item["wrapperType"] == "track") {
                         val artistId: Int = (item["artistId"] as Double).toInt()
                         val collectionId: Int = (item["collectionId"] as Double).toInt()
@@ -103,22 +88,6 @@ class AlbumViewModel @Inject constructor(
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-        }
-    }
-
-    val searchTracksList = Pager(PagingConfig(pageSize = limit)) {
-        SearchTracksDataSource(iTunesRepository, favoritesRepository, songDtoMapper, term, entity, limit)
-    }.flow.cachedIn(viewModelScope)
-
-    fun insertFavoriteSong(favoritesSong: FavoritesSong) {
-        viewModelScope.launch {
-            favoritesRepository.insertFavoritesSong(favoritesSong)
-        }
-    }
-
-    fun deleteFavoriteSong(favoritesSong: FavoritesSong) {
-        viewModelScope.launch {
-            favoritesRepository.deleteFavoritesSong(favoritesSong)
         }
     }
 }

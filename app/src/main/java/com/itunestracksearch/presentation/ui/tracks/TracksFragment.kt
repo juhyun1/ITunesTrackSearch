@@ -46,6 +46,7 @@ class TracksFragment: Fragment() {
         tracksAdapter.onItemClick = { song: Song, isFavoriteButton: Boolean, isFavorite: Boolean ->
             Log.d(TAG, song.toString())
 
+            //즐겨찾기 버튼을 클릭하면 DB에 즐겨찾기를 넣거나 삭제한다.
             if (isFavoriteButton) {
                 val favoriteSong = daoMapper.mapFromDomainModel(song)
                 if (isFavorite) {
@@ -54,6 +55,8 @@ class TracksFragment: Fragment() {
                     tracksViewModel.deleteFavoriteSong(favoriteSong)
                 }
             } else {
+
+                //트랙을 클릭하였을 경우에 Album으로 전환한다.
                 val bundle = bundleOf("playSong" to song)
                 findNavController().navigate(
                     R.id.action_TracksFragment_to_AlbumFragment,
@@ -68,8 +71,8 @@ class TracksFragment: Fragment() {
         }
 
         mainActivityViewModel.removeFavoriteSong.observe(requireActivity()) {
-            //If you return to the tracks tab from the favorite tab, you will continue to listen to the removeFavoriteSong.
-            //dealt with workaround
+            //즐겨찾기 탭을 클릭후 다시 트랙탭으로 넘오오면 마지막에 입력한 removeFavoriteSong 라이브 데이터가 계속해서 넘어온다.
+            //workaround 처리한다. 원인을 찾으면 제거 할 예정.
             if (it == null) {
                 return@observe
             }

@@ -31,10 +31,10 @@
 
     <TextView
         android:id="@+id/trackNumber"
-        android:layout_width="30dp"
+        android:layout_width="@dimen/list_item_album_trackNumber_margin"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="17sp"
+        android:textSize="@dimen/list_item_album_font_size"
         tools:text="12"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@+id/startGuide"/>
@@ -44,7 +44,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="17sp"
+        android:textSize="@dimen/list_item_album_font_size"
         tools:text="Rolling Stone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/trackTime"
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
-        android:textSize="17sp"
+        android:textSize="@dimen/list_item_album_font_size"
         tools:text="3:54"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/endGuide"/>

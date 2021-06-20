@@ -3,9 +3,7 @@ package com.itunestracksearch.presentation
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -14,7 +12,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.itunestracksearch.R
 import com.itunestracksearch.databinding.ActivityMainBinding
-import com.itunestracksearch.presentation.ui.favorite.FavoriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(R.id.navigation_tracks, R.id.navigation_favorite)
         )
+
+        //navigation 라이브러리 2.4.0-alpha01 부터 BottomNavigationView의 연결된 Fragment의 상태를 기억하고 복원해줍니다.
+        //Fragment를 직접 hide, show하지 않아도 됩니다.
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 

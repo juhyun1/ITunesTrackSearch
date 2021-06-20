@@ -3,6 +3,7 @@ package com.itunestracksearch.domain
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+//Fragment의 argument로 전달하기 위해서 Parcelable로 생성
 @Parcelize
 data class Song (
     val artistId: Int,//76531581,

@@ -21,8 +21,11 @@ class TracksViewModel @Inject constructor(
     private val songDtoMapper: SongDtoMapper
 ): ViewModel() {
 
+    //요구 사항: greenday와 song
     private val term: String = "greenday"
     private val entity: String = "song"
+
+    //pagination의 크기를 10으로 제한
     private val limit = 10
 
     val searchTracksList = Pager(PagingConfig(pageSize = limit)) {

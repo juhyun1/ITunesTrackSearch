@@ -1,6 +1,5 @@
 package com.itunestracksearch.presentation.ui.favorite
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,7 +8,6 @@ import androidx.paging.cachedIn
 import androidx.paging.map
 import com.itunestracksearch.db.DaoMapper
 import com.itunestracksearch.db.vo.FavoritesSong
-import com.itunestracksearch.domain.Song
 import com.itunestracksearch.repository.FavoritesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map

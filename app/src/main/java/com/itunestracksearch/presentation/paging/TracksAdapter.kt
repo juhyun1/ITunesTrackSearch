@@ -16,9 +16,6 @@ import com.itunestracksearch.util.loadImage
 
 class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(diffCallback) {
 
-    fun TracksAdapter() {
-        val a = 1
-    }
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bindTo(getItem(position), position)
     }

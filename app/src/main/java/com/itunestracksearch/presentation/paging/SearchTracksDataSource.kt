@@ -38,21 +38,17 @@ class SearchTracksDataSource(
                 offset = offset
             )
 
-//            for (songDto in tracksResponse.results) {
-//                Log.d(TAG, songDto.toString())
-//            }
-
+            //즐겨찾기를 표시 해주기 위해서 DB로부터 즐겨찾기 여부를 확인한다.
+            //DB에 접근하기 때문에 IO Coroutine에서 작업하며 작업을 마친후 song을 넘겨주기 위해서 runBlocking을 사용하여 시간의 순서를 지키게 했음.
             val list = tracksResponse.results.map {
+                val song = songDtoMapper.mapToDomainModel(it)
                 runBlocking {
-                    val song = songDtoMapper.mapToDomainModel(it)
-                    runBlocking {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val songFromDB: FavoritesSong? = favoritesRepository.getFavoritesSong(song.trackId)
-                            song.isFavorite = songFromDB != null
-                        }
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val songFromDB: FavoritesSong? = favoritesRepository.getFavoritesSong(song.trackId)
+                        song.isFavorite = songFromDB != null
                     }
-                    song
                 }
+                song
             }
 
             LoadResult.Page(

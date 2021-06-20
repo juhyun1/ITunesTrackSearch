@@ -2,4 +2,22 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="list_item_track_artWork_image_size">110dp</dimen>
+    <dimen name="list_item_track_trackName_margin">10dp</dimen>
+    <dimen name="list_item_track_trackName_font_size">20sp</dimen>
+    <dimen name="list_item_track_collectionName_font_size">15sp</dimen>
+    <dimen name="list_item_track_artistName_font_size">12sp</dimen>
+    <dimen name="list_item_track_favorite_image_size">30dp</dimen>
+
+    <dimen name="list_item_album_trackNumber_margin">30dp</dimen>
+    <dimen name="list_item_album_font_size">19sp</dimen>
+
+    <dimen name="fragment_album_artwork_image_size">150dp</dimen>
+    <dimen name="fragment_album_artwork_image_margin_top">20dp</dimen>
+    <dimen name="fragment_album_collectionName_margin_start">10dp</dimen>
+    <dimen name="fragment_album_collectionName_text_size">20sp</dimen>
+    <dimen name="fragment_album_recyclerview_layout_margin_top">20dp</dimen>
+    <dimen name="fragment_album_artistName_text_size">20sp</dimen>
+    <dimen name="fragment_album_primaryGenreName_text_size">12sp</dimen>
 </resources>

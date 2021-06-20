@@ -66,6 +66,7 @@ class AlbumAdapter : PagingDataAdapter<Song, AlbumAdapter.ViewHolder>(diffCallba
         fun bindTo(item: Song?, pos: Int) {
             with(itemView) {
                 item?.let {
+
                     val date = Date(it.trackTimeMillis)
                     val format = SimpleDateFormat("mm:ss")
                     var timeInFormat = format.format(date)
