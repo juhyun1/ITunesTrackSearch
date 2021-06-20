@@ -1,30 +1,47 @@
 package com.itunestracksearch.presentation.paging
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.itunestracksearch.R
 import com.itunestracksearch.databinding.ListItemTrackBinding
 import com.itunestracksearch.domain.Song
-import com.itunestracksearch.util.loadImage
 
 class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(diffCallback) {
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bindTo(getItem(position), position)
+        holder.bindTo(getItem(position))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ListItemTrackBinding.inflate(inflater, parent, false)
+        val viewHolder = TrackViewHolder(binding)
 
-        return TrackViewHolder(binding, ::onClick)
+        with(viewHolder.itemView) {
+
+            setOnClickListener {
+                if (viewHolder.layoutPosition != RecyclerView.NO_POSITION) {
+                    onClick(position = viewHolder.layoutPosition, isFavoriteButton = false, isFavorite = false)
+                }
+            }
+
+            binding.favorite.setOnClickListener {
+                val song: Song? = getItem(viewHolder.layoutPosition)
+                song?.let {
+                    it.isFavorite = !it.isFavorite
+
+                    if (viewHolder.layoutPosition != RecyclerView.NO_POSITION) {
+                        onClick(position = viewHolder.layoutPosition, isFavoriteButton = true, isFavorite = it.isFavorite)
+                    }
+                    notifyItemChanged(viewHolder.layoutPosition)
+                }
+            }
+        }
+
+        return viewHolder
     }
 
     lateinit var onItemClick: (Song, Boolean, Boolean) -> Unit
@@ -54,51 +71,11 @@ class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(dif
     }
 
     inner class TrackViewHolder(
-        binding: ListItemTrackBinding,
-        private val onItemClick: (Int,Boolean, Boolean) -> Unit
+        private val binding: ListItemTrackBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
-        private val artWork: ImageView = binding.artWork
-        private val trackName: TextView = binding.trackName
-        private val collectionName: TextView = binding.collectionName
-        private val artistName: TextView = binding.artistName
-        val favorite: ImageView = binding.favorite
-
-
-        private fun setFavorite(isFavorite: Boolean) {
-            if (isFavorite) {
-                favorite.setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN)
-            } else {
-                favorite.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-            }
-        }
-
-        fun bindTo(item: Song?, pos: Int) {
-            with(itemView) {
-                item?.let {
-                    artWork.loadImage(it.artworkUrl60)
-                    trackName.text = it.trackName
-                    collectionName.text = it.collectionName
-                    artistName.text = it.artistName
-                    setFavorite(it.isFavorite)
-
-                    setOnClickListener {
-                        if (layoutPosition != RecyclerView.NO_POSITION) {
-                            onItemClick(layoutPosition, false, false)
-                        }
-                    }
-                }
-
-                favorite.setOnClickListener {
-                    item?.let {
-                        setFavorite(!item.isFavorite)
-                        it.isFavorite = !it.isFavorite
-                        if (layoutPosition != RecyclerView.NO_POSITION) {
-                            onItemClick(layoutPosition, true, it.isFavorite)
-                        }
-                    }
-                }
-            }
+        fun bindTo(track: Song?) {
+            binding.track = track
+            binding.executePendingBindings()
         }
     }
 }

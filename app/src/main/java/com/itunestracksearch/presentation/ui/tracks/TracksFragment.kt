@@ -78,9 +78,11 @@ class TracksFragment: Fragment() {
             }
 
             val snapshot = tracksAdapter.snapshot()
-            for (song in snapshot.items) {
+            for(index in snapshot.items.indices) {
+                val song = snapshot.items[index]
                 if (song.trackId == it.trackId) {
                     song.isFavorite = false
+                    tracksAdapter.notifyItemChanged(index)
                     mainActivityViewModel.removeFavoriteSong.postValue(null)
                     break
                 }
