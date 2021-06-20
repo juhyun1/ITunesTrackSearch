@@ -4,7 +4,6 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
-    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -49,9 +48,16 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.4.0-alpha02'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-alpha02'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha02'
+
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.4.0-alpha01'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-alpha01'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-alpha01'
+
+    implementation 'androidx.navigation:navigation-runtime:2.4.0-alpha01'
+    implementation 'androidx.navigation:navigation-fragment:2.4.0-alpha01'
+    implementation 'androidx.navigation:navigation-ui:2.4.0-alpha01'
+
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

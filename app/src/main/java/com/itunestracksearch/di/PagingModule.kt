@@ -1,5 +1,6 @@
 package com.itunestracksearch.di
 
+import com.itunestracksearch.presentation.paging.AlbumAdapter
 import com.itunestracksearch.presentation.paging.TracksAdapter
 import dagger.Module
 import dagger.Provides
@@ -15,4 +16,8 @@ object PagingModule {
         return TracksAdapter()
     }
 
+    @Provides
+    fun provideAlbumAdapter(): AlbumAdapter {
+        return AlbumAdapter()
+    }
 }

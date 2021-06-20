@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.itunestracksearch.presentation.ui.album.AlbumViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95"/>
+
+        <ImageView
+            android:id="@+id/artwork"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            tools:src="@drawable/placeholder"
+            app:load_image="@{viewModel.artwork}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/startGuide"/>
+
+        <TextView
+            android:id="@+id/collectionName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="See You Tomorrow"
+            android:layout_marginStart="10dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@{viewModel.collectionName}"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintTop_toTopOf="@+id/artwork"
+            app:layout_constraintBottom_toTopOf="@+id/artistName"
+            app:layout_constraintStart_toEndOf="@+id/artwork"/>
+
+        <TextView
+            android:id="@+id/artistName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Tom MacDonald"
+            android:textColor="@android:color/holo_red_light"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:text="@{viewModel.artistName}"
+            app:layout_constraintTop_toBottomOf="@+id/collectionName"
+            app:layout_constraintBottom_toTopOf="@+id/primaryGenreName"
+            app:layout_constraintStart_toStartOf="@+id/collectionName"/>
+
+        <TextView
+            android:id="@+id/primaryGenreName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Hip-Hop/Rap"
+            android:textSize="12sp"
+            android:text="@{viewModel.primaryGenreName}"
+            app:layout_constraintTop_toBottomOf="@+id/artistName"
+            app:layout_constraintBottom_toBottomOf="@+id/artwork"
+            app:layout_constraintStart_toStartOf="@+id/collectionName"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/album"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            tools:listitem="@layout/list_item_album"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/artwork"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/endGuide"
+            app:layout_constraintStart_toStartOf="@+id/startGuide"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

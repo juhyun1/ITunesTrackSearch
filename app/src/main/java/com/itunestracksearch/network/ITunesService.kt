@@ -1,5 +1,6 @@
 package com.itunestracksearch.network
 
+import com.itunestracksearch.network.response.AlbumResponse
 import com.itunestracksearch.network.response.TracksResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,4 +14,10 @@ interface ITunesService {
         @Query("limit") limit: Int,
         @Query("offset") offset : Int
     ): TracksResponse
+
+    @GET("lookup")
+    suspend fun getAlbum(
+        @Query("id") collectionId: Int,
+        @Query("entity") entity : String,
+    ): AlbumResponse
 }
