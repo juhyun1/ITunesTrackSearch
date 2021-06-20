@@ -27,7 +27,7 @@ data class SongDto(
     val discNumber: Int,//1,
     val trackCount: Int,//17,
     val trackNumber: Int,//1,
-    val trackTimeMillis: Int,//211862,
+    val trackTimeMillis: Long,//211862,
     val country: String,//"USA",
     val currency: String,//"USD",
     val primaryGenreName: String,//"Hip-Hop/Rap",

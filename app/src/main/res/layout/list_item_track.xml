@@ -1,85 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="adapter"
-            type="com.itunestracksearch.presentation.paging.TracksAdapter" />
-    </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@drawable/list_item_tracks_background"
-        android:layout_width="match_parent"
-        android:layout_height="150dp">
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/startGuide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.05"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/list_item_tracks_background"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/startGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"/>
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/endGuide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.95"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/endGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
 
-        <ImageView
-            android:id="@+id/artWork"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            tools:src="@drawable/placeholder"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/startGuide"/>
+    <ImageView
+        android:id="@+id/artWork"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        tools:src="@drawable/placeholder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/startGuide"/>
 
-        <TextView
-            android:id="@+id/trackName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            tools:text="trackName"
-            android:textSize="20sp"
-            android:textColor="@android:color/black"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="@+id/artWork"
-            app:layout_constraintBottom_toTopOf="@+id/collectionName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/artWork"/>
+    <TextView
+        android:id="@+id/trackName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        tools:text="trackName"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@+id/artWork"
+        app:layout_constraintBottom_toTopOf="@+id/collectionName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/artWork"/>
 
-        <TextView
-            android:id="@+id/collectionName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            tools:text="collectionName"
-            android:textSize="15sp"
-            android:textColor="@android:color/black"
-            app:layout_constraintTop_toBottomOf="@+id/trackName"
-            app:layout_constraintBottom_toTopOf="@+id/artistName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/trackName"/>
+    <TextView
+        android:id="@+id/collectionName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="collectionName"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@+id/trackName"
+        app:layout_constraintBottom_toTopOf="@+id/artistName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/trackName"/>
 
-        <TextView
-            android:id="@+id/artistName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="@android:color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/artWork"
-            app:layout_constraintStart_toStartOf="@+id/trackName"
-            app:layout_constraintTop_toBottomOf="@+id/collectionName"
-            tools:text="artistName" />
+    <TextView
+        android:id="@+id/artistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/artWork"
+        app:layout_constraintStart_toStartOf="@+id/trackName"
+        app:layout_constraintTop_toBottomOf="@+id/collectionName"
+        tools:text="artistName" />
 
-        <ImageView
-            android:id="@+id/favorite"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:tint="@android:color/white"
-            android:src="@drawable/ic_star_24"
-            app:layout_constraintBottom_toBottomOf="@+id/artWork"
-            app:layout_constraintEnd_toEndOf="@+id/endGuide"
-            tools:text="artistName" />
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:tint="@android:color/white"
+        android:src="@drawable/ic_star_24"
+        app:layout_constraintBottom_toBottomOf="@+id/artWork"
+        app:layout_constraintEnd_toEndOf="@+id/endGuide"
+        tools:text="artistName" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

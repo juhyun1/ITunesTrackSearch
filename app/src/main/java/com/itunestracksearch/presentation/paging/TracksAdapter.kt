@@ -16,6 +16,9 @@ import com.itunestracksearch.util.loadImage
 
 class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(diffCallback) {
 
+    fun TracksAdapter() {
+        val a = 1
+    }
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         holder.bindTo(getItem(position), position)
     }
@@ -27,13 +30,12 @@ class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(dif
         return TrackViewHolder(binding, ::onClick)
     }
 
-    lateinit var onItemClick: (Song, Boolean) -> Unit
+    lateinit var onItemClick: (Song, Boolean, Boolean) -> Unit
 
-
-    private fun onClick(position: Int, isFavorite: Boolean) {
+    private fun onClick(position: Int, isFavoriteButton: Boolean, isFavorite: Boolean) {
         if (::onItemClick.isInitialized) {
             val song = getItem(position)
-            song?.let { onItemClick(it, isFavorite) }
+            song?.let { onItemClick(it, isFavoriteButton, isFavorite) }
         }
     }
 
@@ -56,7 +58,7 @@ class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(dif
 
     inner class TrackViewHolder(
         binding: ListItemTrackBinding,
-        private val onItemClick: (Int, Boolean) -> Unit
+        private val onItemClick: (Int,Boolean, Boolean) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val artWork: ImageView = binding.artWork
@@ -68,10 +70,8 @@ class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(dif
 
         private fun setFavorite(isFavorite: Boolean) {
             if (isFavorite) {
-                favorite.isSelected = true
                 favorite.setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_IN)
             } else {
-                favorite.isSelected = false
                 favorite.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
             }
         }
@@ -84,16 +84,21 @@ class TracksAdapter : PagingDataAdapter<Song, TracksAdapter.TrackViewHolder>(dif
                     collectionName.text = it.collectionName
                     artistName.text = it.artistName
                     setFavorite(it.isFavorite)
+
+                    setOnClickListener {
+                        if (layoutPosition != RecyclerView.NO_POSITION) {
+                            onItemClick(layoutPosition, false, false)
+                        }
+                    }
                 }
 
                 favorite.setOnClickListener {
-                    setFavorite(!favorite.isSelected)
                     item?.let {
+                        setFavorite(!item.isFavorite)
                         it.isFavorite = !it.isFavorite
-                    }
-
-                    if (layoutPosition != RecyclerView.NO_POSITION) {
-                        onItemClick(layoutPosition, favorite.isSelected)
+                        if (layoutPosition != RecyclerView.NO_POSITION) {
+                            onItemClick(layoutPosition, true, it.isFavorite)
+                        }
                     }
                 }
             }

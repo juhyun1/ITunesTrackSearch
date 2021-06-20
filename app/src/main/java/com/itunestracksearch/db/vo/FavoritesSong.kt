@@ -14,7 +14,7 @@ data class FavoritesSong (
     val trackName: String?,//"From the Jump",
     val artworkUrl60: String,
     val trackNumber: Int,//1,
-    val trackTimeMillis: Int,//211862,
+    val trackTimeMillis: Long,//211862,
     val country: String,//"USA",
     val primaryGenreName: String,//"Hip-Hop/Rap",
     val isStreamable: Boolean//true

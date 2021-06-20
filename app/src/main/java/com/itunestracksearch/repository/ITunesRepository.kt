@@ -1,6 +1,7 @@
 package com.itunestracksearch.repository
 
 import com.itunestracksearch.network.ITunesService
+import com.itunestracksearch.network.response.AlbumResponse
 import com.itunestracksearch.network.response.TracksResponse
 
 class ITunesRepository(
@@ -13,6 +14,13 @@ class ITunesRepository(
             entity = entity,
             limit = limit,
             offset = offset
+        )
+    }
+
+    suspend fun lookupAlbum(id: Int, entity: String): AlbumResponse {
+        return iTunesService.getAlbum(
+            collectionId = id,
+            entity = entity
         )
     }
 }

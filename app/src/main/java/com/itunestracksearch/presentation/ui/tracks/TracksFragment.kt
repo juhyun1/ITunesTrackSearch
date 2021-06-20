@@ -5,13 +5,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.itunestracksearch.R
 import com.itunestracksearch.databinding.FragmentTracksBinding
 import com.itunestracksearch.db.DaoMapper
 import com.itunestracksearch.domain.Song
 import com.itunestracksearch.presentation.BaseApplication
+import com.itunestracksearch.presentation.MainActivityViewModel
 import com.itunestracksearch.presentation.paging.TracksAdapter
 import com.itunestracksearch.util.TAG
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +27,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class TracksFragment: Fragment() {
 
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
     private val tracksViewModel: TracksViewModel by viewModels()
     private var _binding: FragmentTracksBinding? = null
     @Inject lateinit var tracksAdapter: TracksAdapter
@@ -37,14 +43,21 @@ class TracksFragment: Fragment() {
         _binding = FragmentTracksBinding.inflate(inflater, container, false)
         val root: View = binding.root
         binding.trackList.adapter = tracksAdapter
-        tracksAdapter.onItemClick = { song: Song, isFavorite: Boolean ->
+        tracksAdapter.onItemClick = { song: Song, isFavoriteButton: Boolean, isFavorite: Boolean ->
             Log.d(TAG, song.toString())
 
-            val favoriteSong = daoMapper.mapFromDomainModel(song)
-            if (isFavorite) {
-                tracksViewModel.insertFavoriteSong(favoriteSong)
+            if (isFavoriteButton) {
+                val favoriteSong = daoMapper.mapFromDomainModel(song)
+                if (isFavorite) {
+                    tracksViewModel.insertFavoriteSong(favoriteSong)
+                } else {
+                    tracksViewModel.deleteFavoriteSong(favoriteSong)
+                }
             } else {
-                tracksViewModel.deleteFavoriteSong(favoriteSong)
+                val bundle = bundleOf("playSong" to song)
+                findNavController().navigate(
+                    R.id.action_TracksFragment_to_AlbumFragment,
+                    bundle)
             }
         }
 
@@ -54,11 +67,18 @@ class TracksFragment: Fragment() {
             }
         }
 
-        baseApplication.removeFavoriteSong.observe(viewLifecycleOwner) {
+        mainActivityViewModel.removeFavoriteSong.observe(requireActivity()) {
+            //If you return to the tracks tab from the favorite tab, you will continue to listen to the removeFavoriteSong.
+            //dealt with workaround
+            if (it == null) {
+                return@observe
+            }
+
             val snapshot = tracksAdapter.snapshot()
             for (song in snapshot.items) {
                 if (song.trackId == it.trackId) {
                     song.isFavorite = false
+                    mainActivityViewModel.removeFavoriteSong.postValue(null)
                     break
                 }
             }
