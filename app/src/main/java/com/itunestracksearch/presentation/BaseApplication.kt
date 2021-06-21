@@ -1,10 +1,14 @@
 package com.itunestracksearch.presentation
 
-import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import com.itunestracksearch.domain.Song
+import android.content.Context
+import androidx.multidex.MultiDex
+import androidx.multidex.MultiDexApplication
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class BaseApplication : Application() {
+class BaseApplication : MultiDexApplication() {
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this);
+    }
 }
