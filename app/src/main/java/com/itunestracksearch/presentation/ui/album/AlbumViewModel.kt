@@ -1,5 +1,6 @@
 package com.itunestracksearch.presentation.ui.album
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.google.gson.internal.LinkedTreeMap
 import com.itunestracksearch.domain.Song
+import com.itunestracksearch.presentation.BaseApplication
 import com.itunestracksearch.presentation.paging.AlbumDataSource
 import com.itunestracksearch.repository.ITunesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AlbumViewModel @Inject constructor(
+    private var baseApplication: BaseApplication,
     private val iTunesRepository: ITunesRepository,
 ): ViewModel() {
 
@@ -26,11 +29,16 @@ class AlbumViewModel @Inject constructor(
     val primaryGenreName = MutableLiveData("")
 
     // album의 트랙들이 모두 만들어지면 albumAdapter에 데이터를 입력한다.
-    val albumReady = MutableLiveData(false)
-    private val trackList = mutableListOf<Song>()
+    private val _albumReady = MutableLiveData(false)
+    val albumReady: LiveData<Boolean> = _albumReady
+
+    private val _trackList = mutableListOf<Song>()
     val albumTracksList = Pager(PagingConfig(pageSize = limit)) {
-        AlbumDataSource(trackList)
+        AlbumDataSource(_trackList)
     }.flow.cachedIn(viewModelScope)
+
+    //Album에서 선택한 Track을 저장한다. 음악을 플레이할때 사용한다.
+    var selectedSong: MutableLiveData<Song> = MutableLiveData()
 
     fun init(song: Song) {
 
@@ -39,7 +47,7 @@ class AlbumViewModel @Inject constructor(
                 val response = iTunesRepository.lookupAlbum(song.collectionId, "song")
                 limit = response.resultCount
 
-                trackList.clear()
+                _trackList.clear()
                 for(itemDto in response.results) {
                     val item = itemDto as LinkedTreeMap<*, *>
                     if (item["wrapperType"] == "collection") {
@@ -54,6 +62,7 @@ class AlbumViewModel @Inject constructor(
                         val trackId: Int = (item["trackId"] as Double).toInt()
                         val artistName = item["artistName"] as String
                         val collectionName = item["collectionName"] as String
+                        val previewUrl = item["previewUrl"] as String
                         val trackName = item["trackName"] as String
                         val artworkUrl60 = item["artworkUrl60"] as String
                         val trackNumber: Int = (item["trackNumber"] as Double).toInt()
@@ -65,6 +74,7 @@ class AlbumViewModel @Inject constructor(
 
                         if (song.trackId == trackId) {
                             isSelected = true
+                            selectedSong.value = song
                         }
                         val songItem = Song(
                             artistId = artistId,
@@ -74,6 +84,7 @@ class AlbumViewModel @Inject constructor(
                             collectionName = collectionName,
                             trackName = trackName,
                             artworkUrl60 = artworkUrl60,
+                            previewUrl = previewUrl,
                             trackNumber = trackNumber,
                             trackTimeMillis = trackTimeMillis,
                             country = country,
@@ -81,10 +92,10 @@ class AlbumViewModel @Inject constructor(
                             isStreamable = isStreamable,
                             isSelected = isSelected
                         )
-                        trackList.add(songItem)
+                        _trackList.add(songItem)
                     }
                 }
-                albumReady.value = true
+                _albumReady.value = true
             } catch (e: Exception) {
                 e.printStackTrace()
             }

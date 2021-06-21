@@ -13,6 +13,7 @@ data class Song (
     val collectionName: String?,//"See You Tomorrow",
     val trackName: String?,//"From the Jump",
     val artworkUrl60: String,
+    val previewUrl: String,
     val trackNumber: Int,//1,
     val trackTimeMillis: Long,//211862,
     val country: String,//"USA",

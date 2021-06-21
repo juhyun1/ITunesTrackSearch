@@ -13,6 +13,7 @@ class SongDtoMapper : DomainMapper<SongDto, Song> {
             collectionName = model.collectionName,
             trackName = model.trackName,
             artworkUrl60 = model.artworkUrl60,
+            previewUrl = model.previewUrl,
             trackNumber = model.trackNumber,
             trackTimeMillis = model.trackTimeMillis,
             country = model.country,

@@ -4,6 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
+            name="fragment"
+            type="com.itunestracksearch.presentation.ui.album.AlbumFragment" />
+        <variable
             name="viewModel"
             type="com.itunestracksearch.presentation.ui.album.AlbumViewModel" />
     </data>
@@ -82,8 +85,45 @@
             tools:listitem="@layout/list_item_album"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/artwork"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/player"
             app:layout_constraintEnd_toEndOf="@+id/endGuide"
             app:layout_constraintStart_toStartOf="@+id/startGuide"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/album"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/endGuide"
+            app:layout_constraintStart_toStartOf="@+id/startGuide">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                tools:text="From the Jump"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:text="@{viewModel.selectedSong.trackName}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/play"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <ImageButton
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_play_24"
+                android:onClick="@{fragment::playMediaFromButton}"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
