@@ -1,5 +1,6 @@
 package com.itunestracksearch.di
 
+import com.itunestracksearch.network.ITunesRssService
 import com.itunestracksearch.network.ITunesService
 import com.itunestracksearch.repository.ITunesRepository
 import dagger.Module
@@ -15,10 +16,11 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideITunesRepository(
-        iTunesService: ITunesService
+        iTunesService: ITunesService,iTunesRssService: ITunesRssService,
     ): ITunesRepository {
         return ITunesRepository(
-            iTunesService = iTunesService
+            iTunesService = iTunesService,
+            iTunesRssService = iTunesRssService
         )
     }
 }

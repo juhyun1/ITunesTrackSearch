@@ -8,6 +8,7 @@ import androidx.paging.cachedIn
 import com.itunestracksearch.db.vo.FavoritesSong
 import com.itunestracksearch.network.model.SongDtoMapper
 import com.itunestracksearch.presentation.paging.SearchTracksDataSource
+import com.itunestracksearch.presentation.paging.TopSongsDataSource
 import com.itunestracksearch.repository.FavoritesRepository
 import com.itunestracksearch.repository.ITunesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,10 +27,18 @@ class TracksViewModel @Inject constructor(
     private val entity: String = "song"
 
     //pagination의 크기를 10으로 제한
-    private val limit = 10
+    private val limit = 100
+    private val storefront = "kr"
+    private val pageSize = 10
 
-    val searchTracksList = Pager(PagingConfig(pageSize = limit)) {
-        SearchTracksDataSource(iTunesRepository, favoritesRepository, songDtoMapper, term, entity, limit)
+    val searchTracksList = Pager(PagingConfig(pageSize = pageSize)) {
+        TopSongsDataSource(
+            iTunesRepository = iTunesRepository,
+            favoritesRepository = favoritesRepository,
+            songDtoMapper = songDtoMapper,
+            storefront = storefront,
+            limit = limit
+        )
     }.flow.cachedIn(viewModelScope)
 
     fun insertFavoriteSong(favoritesSong: FavoritesSong) {

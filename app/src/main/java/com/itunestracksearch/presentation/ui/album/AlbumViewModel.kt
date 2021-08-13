@@ -39,12 +39,14 @@ class AlbumViewModel @Inject constructor(
 
     //Album에서 선택한 Track을 저장한다. 음악을 플레이할때 사용한다.
     var selectedSong: MutableLiveData<Song> = MutableLiveData()
+    private val storefront = "us"
 
     fun init(song: Song) {
 
         viewModelScope.launch {
+
             try {
-                val response = iTunesRepository.lookupAlbum(song.collectionId, "song")
+                val response = iTunesRepository.lookupAlbum(id = song.collectionId, entity = "song", country = storefront)
                 limit = response.resultCount
 
                 _trackList.clear()

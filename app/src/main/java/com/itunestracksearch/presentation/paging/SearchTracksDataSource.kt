@@ -10,10 +10,7 @@ import com.itunestracksearch.network.response.TracksResponse
 import com.itunestracksearch.repository.FavoritesRepository
 import com.itunestracksearch.repository.ITunesRepository
 import com.itunestracksearch.util.TAG
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 class SearchTracksDataSource(
     private val iTunesRepository: ITunesRepository,
@@ -43,7 +40,7 @@ class SearchTracksDataSource(
             val list = tracksResponse.results.map {
                 val song = songDtoMapper.mapToDomainModel(it)
                 runBlocking {
-                    CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO) {
                         val songFromDB: FavoritesSong? = favoritesRepository.getFavoritesSong(song.trackId)
                         song.isFavorite = songFromDB != null
                     }

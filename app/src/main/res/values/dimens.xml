@@ -17,7 +17,8 @@
     <dimen name="fragment_album_artwork_image_margin_top">20dp</dimen>
     <dimen name="fragment_album_collectionName_margin_start">10dp</dimen>
     <dimen name="fragment_album_collectionName_text_size">20sp</dimen>
-    <dimen name="fragment_album_recyclerview_layout_margin_top">20dp</dimen>
+    <dimen name="fragment_album_recyclerview_layout_margin_top">20dp</dimen>ls
+
     <dimen name="fragment_album_artistName_text_size">20sp</dimen>
     <dimen name="fragment_album_primaryGenreName_text_size">12sp</dimen>
 </resources>
